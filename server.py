@@ -3,8 +3,9 @@ from flask import Flask, render_template, request
 from flask_socketio import SocketIO, send
 import pyautogui
 
+import recording_and_decoding
+
 import pygame
-pygame.mixer.init()
 
 print("Setting Up Web Server")
 
@@ -33,21 +34,24 @@ def index():
         with open('server_recording1.wav', 'wb') as dec_file:
             dec_file.write(decrypted)
 
+        pygame.mixer.init()
         pygame.mixer.music.load("server_recording1.wav")
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
             pass
-
+        pygame.quit()
 
     isReply = pyautogui.confirm('Would you like to send a message back?',
                                             buttons=["Yes", "No"])
 
     if isReply == "Yes":
+        encrypted = recording_and_decoding.record_and_encrypt()
+        return encrypted
         pass
     else:
-        return "hi there"
+        return request.data
 
-    return "hello world"
+    #return "hello world"
 
 
 if __name__ == "__main__":

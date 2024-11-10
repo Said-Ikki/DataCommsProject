@@ -10,6 +10,8 @@ from Crypto.Cipher import PKCS1_OAEP
 
 from cryptography.fernet import Fernet
 
+import recording_and_decoding
+
 # Sampling frequency
 freq = 44100
 # Recording duration
@@ -84,3 +86,5 @@ with open('recording1.wav', 'wb') as dec_file:
 
 response = requests.post(url="http://192.168.250.68:2000/", data=encrypted)
 #print()
+
+recording_and_decoding.decrypt_and_save(response.content)
