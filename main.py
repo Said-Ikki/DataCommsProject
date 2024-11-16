@@ -12,6 +12,9 @@ from cryptography.fernet import Fernet
 
 import recording_and_decoding
 
+#cool comment
+
+
 # Sampling frequency
 freq = 44100
 # Recording duration
