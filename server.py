@@ -4,6 +4,7 @@ from flask_socketio import SocketIO, send
 import pyautogui
 
 import recording_and_decoding
+import AES
 
 import pygame
 
@@ -21,16 +22,7 @@ def index():
                                 buttons=["Yes", "No"])
     if isListen == "Yes":
         encrypted = request.data
-        with open('filekey.key', 'rb') as filekey:
-            key = filekey.read()
-        with open('encrypted.wav', 'wb') as encrypted_file:
-            encrypted_file.write(encrypted)
-        fernet = Fernet(key)
-        # opening the encrypted file
-        with open('encrypted.wav', 'rb') as enc_file:
-            encrypted = enc_file.read()
-        # decrypting the file
-        decrypted = fernet.decrypt(encrypted)
+        decrypted = AES.decrypt(encrypted)
         with open('server_recording1.wav', 'wb') as dec_file:
             dec_file.write(decrypted)
 
@@ -45,13 +37,16 @@ def index():
                                             buttons=["Yes", "No"])
 
     if isReply == "Yes":
-        encrypted = recording_and_decoding.record_and_encrypt()
+        AES.record('server_recording.wav')
+
+        # open sound file and encrypt it using AES
+        with open('server_recording1.wav', 'rb') as file:
+            encrypted = AES.encrypt(file.read())
+
         return encrypted
         pass
     else:
         return request.data
-
-    #return "hello world"
 
 
 if __name__ == "__main__":

@@ -1,14 +1,17 @@
 import requests
 import sounddevice as sd
 from scipy.io.wavfile import write
-import wavio as wv
+# import wavio as wv
 import pickle
-import numpy as np
+# import numpy as np
 
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
+# from Crypto.PublicKey import RSA
+# from Crypto.Cipher import PKCS1_OAEP
 
 from cryptography.fernet import Fernet
+
+import AES
+
 
 def record_and_encrypt():
     # Sampling frequency
@@ -19,7 +22,7 @@ def record_and_encrypt():
     # of duration and sample frequency
     print("start talking!")
     recording = sd.rec(int(duration * freq),
-                       samplerate=freq, channels=2)
+                       samplerate=freq, channels=1)
     # Record audio for the given number of seconds
     sd.wait()
     print("OK, we're done!")
@@ -62,7 +65,9 @@ def record_and_encrypt():
         original = file.read()
 
     # encrypting the file
-    encrypted = fernet.encrypt(original)
+    #encrypted = fernet.encrypt(original)
+
+    encrypted = AES.encrypt('recording0.wav')
 
     return encrypted
 
