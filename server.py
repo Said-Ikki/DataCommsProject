@@ -26,11 +26,11 @@ def index():
         decrypted = AES.decrypt(encrypted)
 
         # save the decrypted data to a file
-        with open('server_recording1.wav', 'wb') as dec_file:
+        with open('from_client_aftermath.wav', 'wb') as dec_file:
             dec_file.write(decrypted)
 
         pygame.mixer.init()
-        pygame.mixer.music.load("server_recording1.wav")
+        pygame.mixer.music.load("from_client_aftermath.wav")
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
             pass
@@ -40,10 +40,10 @@ def index():
                                             buttons=["Yes", "No"])
 
     if isReply == "Yes":
-        AES.record('server_recording.wav')
+        AES.record('from_server_original.wav')
 
         # open sound file and encrypt it using AES
-        with open('server_recording1.wav', 'rb') as file:
+        with open('from_server_original.wav', 'rb') as file:
             encrypted = AES.encrypt(file.read())
 
         return encrypted

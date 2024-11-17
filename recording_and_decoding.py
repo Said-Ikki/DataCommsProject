@@ -12,6 +12,8 @@ from cryptography.fernet import Fernet
 
 import AES
 
+from scipy.io.wavfile import read
+import numpy
 
 def record_and_encrypt():
     # Sampling frequency
@@ -87,3 +89,32 @@ def decrypt_and_save(encrypted):
     decrypted = fernet.decrypt(encrypted)
     with open('server_recording1.wav', 'wb') as dec_file:
         dec_file.write(decrypted)
+
+
+def snr_calc():
+    a = read("from_client_original.wav")
+    b = read("from_client_aftermath.wav")
+    before_transmit = numpy.mean( numpy.array(a[1], dtype=float) + numpy.array(a[0], dtype=float) )
+    after_transmit =  numpy.mean( numpy.array(b[1], dtype=float) + numpy.array(b[0], dtype=float)  )
+    #before_transmit = numpy.mean(a, axis=1) #numpy.array(a[1], dtype=float) #
+    #after_transmit = numpy.mean(b, axis=1) #numpy.array(b[1], dtype=float)
+
+    #min_len = min(len(before_transmit), len(after_transmit))
+    #before_transmit = before_transmit[:min_len]
+    #after_transmit = after_transmit[:min_len]
+
+    noise = before_transmit - after_transmit
+
+    signal_power = numpy.mean(before_transmit ** 2)
+    noise_power = numpy.mean(noise ** 2)
+
+    if noise_power == 0:
+        noise_power = 0.0001
+
+    snr = 10 * numpy.log10(signal_power / noise_power)
+
+    print("Signal Power:", signal_power)
+    print("Noise Power:", noise_power)
+    print("SNR from client to server: ", snr)
+
+snr_calc()
