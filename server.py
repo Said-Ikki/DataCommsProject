@@ -29,11 +29,11 @@ def index():
         with open('from_client_aftermath.wav', 'wb') as dec_file:
             dec_file.write(decrypted)
 
-        pygame.mixer.init()
+        pygame.mixer.init(frequency=9143)
         pygame.mixer.music.load("from_client_aftermath.wav")
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy():
-            pass
+            pygame.time.Clock().tick(10)
         pygame.quit()
 
     isReply = pyautogui.confirm('Would you like to send a message back?',
