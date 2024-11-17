@@ -50,7 +50,8 @@ def decrypt(data):
 
 def record(name):
     # Sampling frequency
-    freq = 44100
+    #freq = 44100 # hi quality
+    freq = 1638
     # Recording duration
     duration = 5
     # Start recorder with the given values
@@ -64,3 +65,5 @@ def record(name):
 
     # This will convert the NumPy array to an audio file
     write(name, freq, recording)
+
+#record("hella_bad.wav")

@@ -15,6 +15,8 @@ import AES
 from scipy.io.wavfile import read
 import numpy
 
+
+
 def record_and_encrypt():
     # Sampling frequency
     freq = 44100
@@ -118,3 +120,56 @@ def snr_calc():
     print("SNR from client to server: ", snr)
 
 snr_calc()
+
+import zlib, sys
+
+filename_in = "hella_bad.wav"
+filename_out = "hella_bad_compressed.wav"
+
+file_in = "hella_bad_compressed.wav"
+file_out = "SUPER_compressed.wav"
+
+with open(filename_in, mode="rb") as fin, open(filename_out, mode="wb") as fout:
+    data = fin.read()
+    compressed_data = zlib.compress(data, zlib.Z_BEST_COMPRESSION)
+    print(f"Original size: {sys.getsizeof(data)}")
+    # Original size: 1000033
+    print(f"Compressed size: {sys.getsizeof(compressed_data)}")
+    # Compressed size: 1024
+
+    fout.write(compressed_data)
+
+
+"""
+with open(filename_out, mode="rb") as fin:
+    data = fin.read()
+    compressed_data = zlib.decompress(data)
+    print(f"Compressed size: {sys.getsizeof(data)}")
+    # Compressed size: 1024
+    print(f"Decompressed size: {sys.getsizeof(compressed_data)}")
+    # Decompressed size: 1000033
+"""
+
+import bz2, os, sys
+
+#filename_in = "from_client_original.wav"
+#filename_out = "from_client_original_compressed.bz2"
+
+with open(file_in, mode="rb") as fin, bz2.open(file_out, "wb") as fout:
+    fout.write(fin.read())
+
+print(f"Uncompressed size: {os.stat(filename_in).st_size}")
+# Uncompressed size: 1000000
+print(f"Compressed size: {os.stat(filename_out).st_size}")
+# Compressed size: 48
+'''
+with bz2.open(filename_out, "rb") as fin:
+    data = fin.read()
+    print(f"Decompressed size: {sys.getsizeof(data)}")
+    # Decompressed size: 1000033
+    
+    
+
+with open('from_client_original_decompressed.wav', 'wb') as dec_file:
+    dec_file.write(data)
+    '''
