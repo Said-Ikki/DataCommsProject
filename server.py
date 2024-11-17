@@ -1,9 +1,6 @@
-from cryptography.fernet import Fernet
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, send
 import pyautogui
-
-import recording_and_decoding
 import AES
 
 import pygame
@@ -21,8 +18,14 @@ def index():
     isListen = pyautogui.confirm('Would you like to listen to the message?',
                                 buttons=["Yes", "No"])
     if isListen == "Yes":
+
+        # get sent data
         encrypted = request.data
+
+        # decrypt the data
         decrypted = AES.decrypt(encrypted)
+
+        # save the decrypted data to a file
         with open('server_recording1.wav', 'wb') as dec_file:
             dec_file.write(decrypted)
 
