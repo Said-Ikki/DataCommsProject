@@ -54,8 +54,9 @@ def decrypt(data):
 
 def record(name):
     # Sampling frequency
-    freq = 44100 # hi quality
-    #freq = 1638
+    #freq = 44100 # hi quality
+    #freq = 1638 $ hella bad
+    freq = 4000
     # Recording duration
     duration = 5
     # Start recorder with the given values

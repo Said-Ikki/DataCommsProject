@@ -94,7 +94,6 @@ def decrypt_and_save(encrypted):
 
 
 def snr_calc():
-
     a = read("from_client_original.wav")
     b = read("from_client_aftermath.wav")
     before_transmit = numpy.mean( numpy.array(a[1], dtype=float) + numpy.array(a[0], dtype=float) )
@@ -120,15 +119,31 @@ def snr_calc():
     print("Noise Power:", noise_power)
     print("SNR from client to server: ", snr)
 
-
-
-
-
-'''
 snr_calc()
 
 import zlib, sys
 
+def compress(filename_in, filename_out):
+    with open(filename_in, mode="rb") as fin, open(filename_out, mode="wb") as fout:
+        data = fin.read()
+        compressed_data = zlib.compress(data, zlib.Z_BEST_COMPRESSION)
+        print(f"Original size: {sys.getsizeof(data)}")
+        # Original size: 1000033
+        print(f"Compressed size: {sys.getsizeof(compressed_data)}")
+        # Compressed size: 1024
+
+        fout.write(compressed_data)
+
+def decompress(filename_in, filename_out):
+    with open(filename_in, mode="rb") as fin, open(filename_out, mode="wb") as fout:
+        data = fin.read()
+        compressed_data = zlib.decompress(data)
+        print(f"Compressed size: {sys.getsizeof(data)}")
+        # Compressed size: 1024
+        print(f"Decompressed size: {sys.getsizeof(compressed_data)}")
+        # Decompressed size: 1000033
+        fout.write(compressed_data)
+'''
 filename_in = "hella_bad.wav"
 filename_out = "hella_bad_compressed.wav"
 
@@ -146,7 +161,7 @@ with open(filename_in, mode="rb") as fin, open(filename_out, mode="wb") as fout:
     fout.write(compressed_data)
 
 
-
+"""
 with open(filename_out, mode="rb") as fin:
     data = fin.read()
     compressed_data = zlib.decompress(data)
@@ -154,7 +169,7 @@ with open(filename_out, mode="rb") as fin:
     # Compressed size: 1024
     print(f"Decompressed size: {sys.getsizeof(compressed_data)}")
     # Decompressed size: 1000033
-
+"""
 
 import bz2, os, sys
 
