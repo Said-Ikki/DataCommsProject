@@ -1,5 +1,4 @@
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
+
 
 from cryptography.fernet import Fernet
 '''
@@ -16,5 +15,5 @@ f.close()
 key = Fernet.generate_key()
 
 # string the key in a file
-with open('filekey.key', 'wb') as filekey:
+with open('Keys/filekey.key', 'wb') as filekey:
     filekey.write(key)

@@ -58,7 +58,7 @@ def record_and_encrypt():
     # Convert the NumPy array to audio file
     # wv.write("recording1.wav", recording, freq, sampwidth=2)
 
-    with open('filekey.key', 'rb') as filekey:
+    with open('Keys/filekey.key', 'rb') as filekey:
         key = filekey.read()
 
     # using the generated key
@@ -79,7 +79,7 @@ def record_and_encrypt():
 
 def decrypt_and_save(encrypted):
 
-    with open('filekey.key', 'rb') as filekey:
+    with open('Keys/filekey.key', 'rb') as filekey:
         key = filekey.read()
     with open('encrypted.wav', 'wb') as encrypted_file:
         encrypted_file.write(encrypted)
@@ -119,7 +119,7 @@ def snr_calc():
     print("Noise Power:", noise_power)
     print("SNR from client to server: ", snr)
 
-snr_calc()
+#snr_calc()
 
 import zlib, sys
 
