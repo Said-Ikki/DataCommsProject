@@ -1,4 +1,3 @@
-
 import os
 
 from Cryptodome.PublicKey import RSA
@@ -8,7 +7,6 @@ import requests
 import random
 
 import AES
-
 
 # import keys
 private_key = RSA.importKey(open('Keys/private_key_client.pem').read())
@@ -47,7 +45,7 @@ validate_mael = {
 }
 
 print(requests.post(ip, json=validate_mael).text)
-code = str( random.randint(1, 100) )
+code = str(random.randint(1, 100))
 yours_mael = {
     "admin": "val_yourself",
     "code": code
@@ -62,18 +60,14 @@ try:
 except:
     print("invalid signature")
 
-
-
-
-
 # start communication with server
 
 # record and save sound file
 AES.record('Audio/from_client_original_uncompressed.wav')
 
 # generate random 32 byte key and save it to file
-with open('Keys/filekey.key', 'wb') as filekey:
-    filekey.write(os.urandom(32))
+# with open('Keys/filekey.key', 'wb') as filekey:
+#    filekey.write(os.urandom(32))
 
 AES.compress('Audio/from_client_original_uncompressed.wav', 'Audio/from_client_original_compressed.wav')
 
